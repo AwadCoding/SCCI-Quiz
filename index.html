@@ -4,24 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="SCCI Quiz">
-  <meta name="keywords" content="SCCI Quiz">
+  <meta name="description" content="Test your knowledge with the SCCI Weekly Knowledge Check. Assess your understanding of the latest session topics.">
+  <meta name="keywords" content="SCCI, Quiz, Student Activity, Knowledge Check, Weekly Assessment">
   <meta name="robots" content="index, follow">
-  <meta name="author" content="Mahmoud Mohamed">
+  <meta name="author" content="SCCI Team">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://awadcoding.github.io/SCCI-Quiz/"> <!-- Placeholder URL -->
+  <meta property="og:title" content="SCCI Weekly Knowledge Check">
+  <meta property="og:description" content="Assess your understanding of the lasted session's topics with our interactive quiz.">
+  <meta property="og:image" content="images/scci-preview.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://awadcoding.github.io/SCCI-Quiz/">
+  <meta property="twitter:title" content="SCCI Weekly Knowledge Check">
+  <meta property="twitter:description" content="Assess your understanding of the lasted session's topics with our interactive quiz.">
+  <meta property="twitter:image" content="images/scci-preview.png">
+
   <!-- Favicon -->
   <link rel="icon" href="images/logo/logo.png">
-  <title>SCCI Quiz</title>
+  <title>SCCI Weekly Knowledge Check</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="container">
 
-  <h1>SCCI New Members Quiz</h1>
-  <p class="subtitle">Test your knowledge before joining the Season</p>
+  <h1>Weekly Knowledge Check</h1>
+  <p class="subtitle">Assess your understanding of the last session's topics</p>
 
   <div id="progress">
     <div id="progressBar"></div>
+  </div>
+
+  <div id="timerBox">
+    <div class="timer-container">
+      <svg class="timer-ring" width="80" height="80">
+        <circle class="timer-ring-circle" stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
+        <circle id="timerProgress" class="timer-ring-circle-progress" stroke="#c41e3a" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
+      </svg>
+      <span id="timerText">30</span>
+    </div>
   </div>
 
   <div id="quizBox"></div>
@@ -30,9 +55,13 @@
 
   <div id="resultBox" class="hidden"></div>
 
+  <div style="margin-top: 30px; text-align: center;">
+    <a href="admin.html" class="admin-link">Admin Panel ⚙️</a>
+  </div>
+
 </div>
 
-<script src="js/main.js"></script>
+<script type="module" src="js/main.js"></script>
 
 </body>
 </html>
