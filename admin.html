@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCCI Quiz Admin</title>
+  
+  <meta name="description" content="Admin Panel for SCCI Weekly Knowledge Check. Manage questions and quiz settings.">
+  <meta name="robots" content="noindex, nofollow"> <!-- Prevent indexing admin page -->
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SCCI Quiz Admin Panel">
+  <meta property="og:description" content="Manage questions for the weekly assessment.">
+  <meta property="og:image" content="images/scci-preview.png">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo/logo.png">
+</head>
+<body>
+
+<div class="container admin-container">
+  <h1>Admin Panel</h1>
+  <p class="subtitle">Add & Manage Questions</p>
+
+  <form id="questionForm">
+    <div class="form-group">
+      <label for="questionText">Question Text</label>
+      <input type="text" id="questionText" placeholder="Enter the question here..." required>
+    </div>
+
+    <div class="form-group">
+      <label>Options</label>
+      <div id="optionsContainer">
+        <input type="text" class="option-input" placeholder="Option 1" required>
+        <input type="text" class="option-input" placeholder="Option 2" required>
+        <input type="text" class="option-input" placeholder="Option 3" required>
+      </div>
+      <button type="button" id="addOptionBtn" class="secondary-btn">+ Add Option</button>
+    </div>
+
+    <div class="form-group">
+      <label for="correctIndex">Correct Answer (Index 0-2)</label>
+      <select id="correctIndex" required>
+        <option value="0">Option 1</option>
+        <option value="1">Option 2</option>
+        <option value="2">Option 3</option>
+      </select>
+    </div>
+
+    <button type="submit" class="submitBtn">Add Question</button>
+  </form>
+
+  <hr style="margin: 30px 0; border-color: rgba(255,255,255,0.1);">
+
+  <h2>Existing Questions</h2>
+  <div id="questionsList"></div>
+  
+  <div style="margin-top: 20px; text-align: center;">
+      <button id="resetBtn" class="secondary-btn warning-btn">Reset to Defaults</button>
+      <br><br>
+      <a href="Quiz.html" style="color: #fff; text-decoration: none;">Go to Quiz &rarr;</a>
+  </div>
+
+</div>
+
+<script type="module" src="js/admin.js"></script>
+
+</body>
+</html>

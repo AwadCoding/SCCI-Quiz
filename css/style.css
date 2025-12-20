@@ -18,18 +18,25 @@ body {
 .container {
   width: 100%;
   max-width: 750px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(25px);
   padding: 35px;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.8s ease-out;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1 {
@@ -50,7 +57,7 @@ h1 {
 #progress {
   width: 100%;
   height: 10px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   margin-bottom: 25px;
 }
@@ -63,9 +70,49 @@ h1 {
   transition: 0.4s;
 }
 
+/* TIMER */
+#timerBox {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.timer-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.timer-ring {
+  transform: rotate(-90deg);
+}
+
+.timer-ring-circle-progress {
+  stroke-dasharray: 226;
+  /* 2 * PI * r (36) */
+  stroke-dashoffset: 0;
+  transition: 1s linear;
+  stroke-linecap: round;
+}
+
+#timerText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.time-up-text {
+  color: #e74c3c !important;
+}
+
 /* QUESTION BOX */
 .question {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   padding: 18px;
   border-radius: 14px;
   margin-bottom: 18px;
@@ -75,7 +122,7 @@ h1 {
 
 .question:hover {
   transform: scale(1.02);
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .question h3 {
@@ -97,7 +144,7 @@ h1 {
 
 .option:hover {
   color: #fff;
-  background: rgba(255,255,255,0.07);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .correct {
@@ -134,7 +181,7 @@ h1 {
 /* RESULTS */
 #resultBox {
   margin-top: 25px;
-  background: rgba(255,255,255,0.07);
+  background: rgba(255, 255, 255, 0.07);
   padding: 20px;
   border-radius: 14px;
   border-left: 4px solid #2a3a6b;
@@ -152,4 +199,122 @@ h1 {
   font-size: 16px;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
+
+/* FORM STYLES */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ddd;
+  font-weight: 500;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+}
+
+input[type="text"]:focus,
+select:focus {
+  border-color: #c41e3a;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+select option {
+  background: #1a1a4d;
+  color: #fff;
+}
+
+.option-input {
+  margin-bottom: 10px;
+}
+
+/* ADMIN LIST */
+.question-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  border-left: 3px solid #ccc;
+}
+
+.q-content {
+  color: #fff;
+}
+
+.delete-btn {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ddd;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.warning-btn {
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.warning-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+/* ADMIN LINK IN QUIZ */
+.admin-link {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.3s;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+  padding-bottom: 2px;
+}
+
+.admin-link:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
