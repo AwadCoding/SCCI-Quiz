@@ -105,7 +105,7 @@ form.addEventListener('submit', async (e) => {
 });
 
 resetBtn.addEventListener('click', async () => {
-    if (confirm('This will delete all custom questions and restore defaults. Are you sure?')) {
+    if (confirm('Are you sure you want to delete ALL questions? This cannot be undone.')) {
         questions = await resetQuestions(); // Await reset
         renderQuestions();
     }

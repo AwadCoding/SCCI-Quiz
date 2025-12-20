@@ -4,37 +4,7 @@ import { ref, get, set, child } from "https://www.gstatic.com/firebasejs/10.7.1/
 
 const DB_REF_KEY = 'questions';
 
-const defaultQuestions = [
-    {
-        q: "What does SCCI stand for?",
-        options: [
-            "Students Conference for Communication & Information",
-            "Smart Community for Creative Innovations",
-            "Senate Committee for Computing & Informatics"
-        ],
-        correct: 0
-    },
-    {
-        q: "Which workshop focuses on Full-Stack Web Development?",
-        options: ["Data Station", "Divology", "TechSolve"],
-        correct: 1
-    },
-    {
-        q: "Which workshop teaches Arduino and Electronics?",
-        options: ["Marketneur", "TechSolve", "Divology"],
-        correct: 1
-    },
-    {
-        q: "Which tool is mainly used in Data Station?",
-        options: ["Excel & Power BI", "Premiere Pro", "Blender"],
-        correct: 0
-    },
-    {
-        q: "What is the final event of the season?",
-        options: ["Mid-Year Challenge", "Final Conference", "Tech Day"],
-        correct: 1
-    }
-];
+const defaultQuestions = [];
 
 // Async function to fetch questions
 export async function getQuestions() {
@@ -68,6 +38,6 @@ export async function saveQuestions(questions) {
 }
 
 export async function resetQuestions() {
-    await saveQuestions(defaultQuestions);
-    return defaultQuestions;
+    await saveQuestions([]);
+    return [];
 }
