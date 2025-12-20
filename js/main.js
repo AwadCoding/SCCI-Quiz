@@ -1,7 +1,6 @@
 import { getQuestions } from './storage.js';
 
-const questions = getQuestions();
-
+let questions = [];
 let index = 0;
 let score = 0;
 
@@ -17,6 +16,25 @@ let timer;
 const TIME_LIMIT = 30;
 let timeLeft = TIME_LIMIT;
 const FULL_DASH_ARRAY = 226; // 2 * PI * 36
+
+async function init() {
+  try {
+    // Show loading state if needed, or just wait
+    quizBox.innerHTML = '<p style="color:white; text-align:center;">Loading questions...</p>';
+    questions = await getQuestions();
+
+    // Check if we actually got questions
+    if (!questions || questions.length === 0) {
+      quizBox.innerHTML = '<p style="color:white; text-align:center;">No questions found.</p>';
+      return;
+    }
+
+    loadQuestion();
+  } catch (error) {
+    console.error("Failed to load questions:", error);
+    quizBox.innerHTML = '<p style="color:red; text-align:center;">Error loading questions. Please refresh.</p>';
+  }
+}
 
 function startTimer() {
   timeLeft = TIME_LIMIT;
@@ -60,8 +78,10 @@ function handleTimeUp() {
   const correctIndex = questions[index].correct;
   const options = document.querySelectorAll(".option");
 
-  // Highlight correct answer only, don't mark wrong since user didn't click
-  options[correctIndex].classList.add("correct");
+  // Highlight correct answer only
+  if (options[correctIndex]) {
+    options[correctIndex].classList.add("correct");
+  }
 
   nextBtn.classList.remove("hidden");
 }
@@ -133,4 +153,5 @@ function showResults() {
   `;
 }
 
-loadQuestion();
+// Start the app
+init();

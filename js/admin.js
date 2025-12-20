@@ -1,4 +1,3 @@
-
 import { getQuestions, saveQuestions, resetQuestions } from './storage.js';
 
 const form = document.getElementById('questionForm');
@@ -8,7 +7,30 @@ const addOptionBtn = document.getElementById('addOptionBtn');
 const optionsContainer = document.getElementById('optionsContainer');
 const correctIndexSelect = document.getElementById('correctIndex');
 
-let questions = getQuestions();
+let questions = [];
+
+// Basic Auth Check
+function checkAuth() {
+    const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+    if (isLoggedIn === 'true') {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        init();
+    } else {
+        // Overlay is visible by CSS default, so we stop here.
+        // Waiting for user to login.
+    }
+}
+
+async function init() {
+    try {
+        questionsList.innerHTML = '<p style="color:white;">Loading questions...</p>';
+        questions = await getQuestions();
+        renderQuestions();
+    } catch (error) {
+        console.error("Error init admin:", error);
+        questionsList.innerHTML = '<p style="color:red;">Error loading data.</p>';
+    }
+}
 
 function renderQuestions() {
     questionsList.innerHTML = '';
@@ -45,7 +67,7 @@ function deleteQuestion(index) {
 }
 window.deleteQuestion = deleteQuestion; // Make it global for the inline onclick
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const qText = document.getElementById('questionText').value;
@@ -66,7 +88,7 @@ form.addEventListener('submit', (e) => {
     };
 
     questions.push(newQuestion);
-    saveQuestions(questions);
+    await saveQuestions(questions); // Await save
 
     alert('Question Added!');
     form.reset();
@@ -82,9 +104,9 @@ form.addEventListener('submit', (e) => {
     renderQuestions();
 });
 
-resetBtn.addEventListener('click', () => {
+resetBtn.addEventListener('click', async () => {
     if (confirm('This will delete all custom questions and restore defaults. Are you sure?')) {
-        questions = resetQuestions();
+        questions = await resetQuestions(); // Await reset
         renderQuestions();
     }
 });
@@ -111,5 +133,20 @@ function updateCorrectIndexOptions() {
     }
 }
 
-// Initial Render
-renderQuestions();
+// Start with Auth Check
+checkAuth();
+
+// Login Logic
+document.getElementById('loginBtn').addEventListener('click', () => {
+    const user = document.getElementById('usernameInput').value;
+    const pass = document.getElementById('passwordInput').value;
+
+    // Simple hardcoded check
+    if (user === 'admin' && pass === '123') {
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        checkAuth();
+    } else {
+        alert('Incorrect Username or Password');
+    }
+});
+
