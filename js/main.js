@@ -155,3 +155,12 @@ function showResults() {
 
 // Start the app
 init();
+
+// Spotlight Effect
+const spotlight = document.getElementById('spotlight');
+if (spotlight) {
+  document.addEventListener('mousemove', (e) => {
+    spotlight.style.left = e.pageX + 'px';
+    spotlight.style.top = e.pageY + 'px';
+  });
+}

@@ -12,6 +12,23 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  cursor: url('../images/wand-right.png');
+}
+
+body:active,
+button:active,
+a:active,
+.option:active,
+input:active,
+select:active,
+.submitBtn:active,
+button:hover,
+a:hover,
+.option:hover,
+input:hover,
+select:hover,
+.submitBtn:hover {  
+  cursor: url('../images/wand.png');
 }
 
 /* MAIN CARD */
@@ -356,4 +373,20 @@ select option {
   margin: 5px 0;
   border: none;
   border-radius: 5px;
+}
+
+/* SPOTLIGHT EFFECT */
+#spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 30, 58, 0.5) 0%, rgba(196, 30, 58, 0) 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+  transition: width 0.1s, height 0.1s;
 }
