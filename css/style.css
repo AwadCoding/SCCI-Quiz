@@ -7,7 +7,7 @@
 
 body {
   
-  background: url(../images/Artboard\ f.png) center center/cover no-repeat;
+  background: url(../images/artboard.png) center center/cover no-repeat;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -28,7 +28,7 @@ body::before {
   width: 30vw;
   /* Adjust width relative to viewport */
   min-width: 300px;
-  background: url(../images/Column.png) bottom right / contain no-repeat;
+  background: url(../images/column.png) bottom right / contain no-repeat;
   z-index: 0;
   pointer-events: none;
   /* Let clicks pass through */
