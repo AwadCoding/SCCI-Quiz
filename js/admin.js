@@ -1,4 +1,4 @@
-import { getQuestions, saveQuestions, resetQuestions } from './storage.js';
+import { getQuestions, saveQuestions, resetQuestions, getLeaderboard, resetLeaderboard } from './storage.js';
 
 const form = document.getElementById('questionForm');
 const questionsList = document.getElementById('questionsList');
@@ -26,6 +26,7 @@ async function init() {
         questionsList.innerHTML = '<p style="color:white;">Loading questions...</p>';
         questions = await getQuestions();
         renderQuestions();
+        renderLeaderboard();
     } catch (error) {
         console.error("Error init admin:", error);
         questionsList.innerHTML = '<p style="color:red;">Error loading data.</p>';
@@ -132,6 +133,46 @@ function updateCorrectIndexOptions() {
         correctIndexSelect.appendChild(opt);
     }
 }
+
+
+async function renderLeaderboard() {
+    const leaderboardBody = document.getElementById('leaderboardBody');
+    if (!leaderboardBody) return;
+
+    leaderboardBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
+
+    const leaders = await getLeaderboard();
+
+    if (leaders.length === 0) {
+        leaderboardBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No records yet</td></tr>';
+        return;
+    }
+
+    leaderboardBody.innerHTML = leaders.map((entry, index) => {
+        let rankEmoji = "";
+        if (index === 0) rankEmoji = "🥇";
+        if (index === 1) rankEmoji = "🥈";
+        if (index === 2) rankEmoji = "🥉";
+
+        return `
+          <tr>
+            <td>${rankEmoji || (index + 1)}</td>
+            <td>${entry.name}</td>
+            <td>${entry.score}</td>
+            <td>${entry.time}s</td>
+          </tr>
+        `;
+    }).join("");
+}
+
+document.getElementById('refreshLbBtn')?.addEventListener('click', renderLeaderboard);
+
+document.getElementById('clearLbBtn')?.addEventListener('click', async () => {
+    if (confirm('Are you sure you want to clear the leaderboard? This cannot be undone.')) {
+        await resetLeaderboard();
+        renderLeaderboard();
+    }
+});
 
 // Start with Auth Check
 checkAuth();

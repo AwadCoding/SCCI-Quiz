@@ -6,13 +6,43 @@
 }
 
 body {
-  background: linear-gradient(135deg, #0a1340, #1a1a4d);
+  
+  background: url(../images/Artboard\ f.png) center center/cover no-repeat;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  cursor: url('../images/wand-right.png');
+  cursor: url('../images/wand-right.png'), auto;
+  position: relative;
+  /* Ensure positioning context for pseudo-element */
+}
+
+/* Column Image Background */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30vw;
+  /* Adjust width relative to viewport */
+  min-width: 300px;
+  background: url(../images/Column.png) bottom right / contain no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  /* Let clicks pass through */
+}
+
+/* Mobile adjustments for Column */
+@media (max-width: 768px) {
+  body::before {
+    width: 40vw;
+    opacity: 0.15;
+    /* Faint visibility */
+    right: -10vw;
+    /* Slightly off-screen if needed, or just kept at right */
+  }
 }
 
 body:active,
@@ -27,12 +57,15 @@ a:hover,
 .option:hover,
 input:hover,
 select:hover,
-.submitBtn:hover {  
-  cursor: url('../images/wand.png');
+.submitBtn:hover {
+  cursor: url('../images/wand.png'), pointer;
 }
 
 /* MAIN CARD */
 .container {
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 750px;
   background: rgba(255, 255, 255, 0.04);
@@ -390,3 +423,53 @@ select option {
   mix-blend-mode: screen;
   transition: width 0.1s, height 0.1s;
 }
+/* LEADERBOARD STYLES */
+#leaderboardSection {
+  margin-top: 30px;
+  animation: fadeIn 0.8s ease-out;
+}
+
+#leaderboardSection h3 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.leaderboard-table-container {
+  overflow-x: auto;
+}
+
+#leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  font-size: 15px;
+}
+
+#leaderboardTable th,
+#leaderboardTable td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#leaderboardTable th {
+  background: rgba(196, 30, 58, 0.2);
+  color: #ffcccc;
+  font-weight: 600;
+}
+
+#leaderboardTable tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#leaderboardTable tbody tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Rank Colors */
+#leaderboardTable tbody tr:nth-child(1) td:first-child { color: #ffd700; font-weight: bold; } /* Gold */
+#leaderboardTable tbody tr:nth-child(2) td:first-child { color: #c0c0c0; font-weight: bold; } /* Silver */
+#leaderboardTable tbody tr:nth-child(3) td:first-child { color: #cd7f32; font-weight: bold; } /* Bronze */
+

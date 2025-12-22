@@ -56,6 +56,32 @@
   <h2>Existing Questions</h2>
   <div id="questionsList"></div>
   
+  <hr style="margin: 30px 0; border-color: rgba(255,255,255,0.1);">
+
+  <h2>🏆 Leaderboard</h2>
+  <div>
+    <button id="refreshLbBtn" class="secondary-btn" style="margin-bottom: 15px; font-size: 12px; margin-right: 10px;">Refresh</button>
+    <button id="clearLbBtn" class="secondary-btn warning-btn" style="margin-bottom: 15px; font-size: 12px;">Clear Leaderboard</button>
+  </div>
+  
+  <div class="leaderboard-table-container">
+    <table id="leaderboardTable" style="margin-bottom: 0;">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Score</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody">
+        <!-- Rows will be populated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <hr style="margin: 30px 0; border-color: rgba(255,255,255,0.1);">
+
   <div style="margin-top: 20px; text-align: center;">
       <button id="resetBtn" class="secondary-btn warning-btn">Delete All Questions</button>
       <br><br>

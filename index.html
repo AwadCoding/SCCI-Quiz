@@ -35,25 +35,58 @@
   <h1>Weekly Knowledge Check</h1>
   <p class="subtitle">Assess your understanding of the last session's topics</p>
 
-  <div id="progress">
-    <div id="progressBar"></div>
+  <!-- START SCREEN -->
+  <div id="startScreen">
+    <div class="form-group">
+      <label for="username">Enter your name to start:</label>
+      <input type="text" id="username" placeholder="Your Name..." autocomplete="off">
+    </div>
+    <button id="startBtn" class="submitBtn">Start Quiz</button>
   </div>
 
-  <div id="timerBox">
-    <div class="timer-container">
-      <svg class="timer-ring" width="80" height="80">
-        <circle class="timer-ring-circle" stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
-        <circle id="timerProgress" class="timer-ring-circle-progress" stroke="#c41e3a" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
-      </svg>
-      <span id="timerText">30</span>
+  <!-- GAME SCREEN -->
+  <div id="gameScreen" class="hidden">
+    <div id="progress">
+      <div id="progressBar"></div>
+    </div>
+
+    <div id="timerBox">
+      <div class="timer-container">
+        <svg class="timer-ring" width="80" height="80">
+          <circle class="timer-ring-circle" stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
+          <circle id="timerProgress" class="timer-ring-circle-progress" stroke="#c41e3a" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
+        </svg>
+        <span id="timerText">30</span>
+      </div>
+    </div>
+
+    <div id="quizBox"></div>
+
+    <button id="nextBtn" class="submitBtn hidden">Next Question</button>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="resultBox" class="hidden"></div>
+  
+  <!-- LEADERBOARD SECTION (Hidden by default, shown in results) -->
+  <div id="leaderboardSection" class="hidden">
+    <h3>🏆 Top Players 🏆</h3>
+    <div class="leaderboard-table-container">
+      <table id="leaderboardTable">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardBody">
+          <!-- Rows will be populated by JS -->
+        </tbody>
+      </table>
     </div>
   </div>
-
-  <div id="quizBox"></div>
-
-  <button id="nextBtn" class="submitBtn hidden">Next Question</button>
-
-  <div id="resultBox" class="hidden"></div>
 
   <div style="margin-top: 30px; text-align: center;">
     <a href="admin.html" class="admin-link">Admin Panel ⚙️</a>
