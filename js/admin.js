@@ -97,9 +97,9 @@ form.addEventListener('submit', async (e) => {
     // form.reset() clears values but doesn't remove elements.
     // Let's reset the container to 3 default inputs.
     optionsContainer.innerHTML = `
-        <input type="text" class="option-input" placeholder="Option 1" required>
-        <input type="text" class="option-input" placeholder="Option 2" required>
-        <input type="text" class="option-input" placeholder="Option 3" required>
+        <input type="text" class="option-input" placeholder="Option 1" required dir="auto">
+        <input type="text" class="option-input" placeholder="Option 2" required dir="auto">
+        <input type="text" class="option-input" placeholder="Option 3" required dir="auto">
     `;
     updateCorrectIndexOptions();
     renderQuestions();
@@ -119,6 +119,7 @@ addOptionBtn.addEventListener('click', () => {
     input.className = 'option-input';
     input.placeholder = `Option ${document.querySelectorAll('.option-input').length + 1}`;
     input.required = true;
+    input.dir = "auto";
     optionsContainer.appendChild(input);
     updateCorrectIndexOptions();
 });
@@ -149,14 +150,19 @@ async function renderLeaderboard() {
     }
 
     leaderboardBody.innerHTML = leaders.map((entry, index) => {
-        let rankEmoji = "";
-        if (index === 0) rankEmoji = "🥇";
-        if (index === 1) rankEmoji = "🥈";
-        if (index === 2) rankEmoji = "🥉";
+        let rankDisplay = (index + 1);
+
+        if (index === 0) {
+            rankDisplay = `<img src="assets/images/goblet.jpg" class="rank-icon-gold" alt="Winner">`;
+        } else if (index === 1) {
+            rankDisplay = "🥈";
+        } else if (index === 2) {
+            rankDisplay = "🥉";
+        }
 
         return `
           <tr>
-            <td>${rankEmoji || (index + 1)}</td>
+            <td>${rankDisplay}</td>
             <td>${entry.name}</td>
             <td>${entry.score}</td>
             <td>${entry.time}s</td>

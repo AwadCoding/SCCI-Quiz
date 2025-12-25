@@ -119,11 +119,11 @@ function loadQuestion() {
 
   quizBox.innerHTML = `
     <div class="question">
-      <h3>${q.q}</h3>
+      <h3 dir="auto"><img src="assets/images/icons/question%20mark.png" class="question-icon" alt="?"> ${q.q}</h3>
       ${q.options
       .map(
         (opt, i) => `
-        <div class="option" onclick="selectOption(this, ${i})">${opt}</div>`
+        <div class="option" onclick="selectOption(this, ${i})" dir="auto">${opt}</div>`
       )
       .join("")}
     </div>
@@ -190,14 +190,19 @@ async function finishGame() {
 
   // Update Leaderboard UI
   leaderboardBody.innerHTML = leaders.map((entry, index) => {
-    let rankEmoji = "";
-    if (index === 0) rankEmoji = "🥇";
-    if (index === 1) rankEmoji = "🥈";
-    if (index === 2) rankEmoji = "🥉";
+    let rankDisplay = (index + 1);
+
+    if (index === 0) {
+      rankDisplay = `<img src="assets/images/icons/maincup1.png" class="rank-icon-gold" alt="1st">`;
+    } else if (index === 1) {
+      rankDisplay = `<img src="assets/images/icons/cup2.png" class="rank-icon-silver" alt="2nd">`;
+    } else if (index === 2) {
+      rankDisplay = `<img src="assets/images/icons/cup3.png" class="rank-icon-bronze" alt="3rd">`;
+    }
 
     return `
       <tr>
-        <td>${rankEmoji || (index + 1)}</td>
+        <td>${rankDisplay}</td>
         <td>${entry.name}</td>
         <td>${entry.score}</td>
         <td>${entry.time}s</td>

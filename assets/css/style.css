@@ -2,11 +2,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Ringbearer', 'Segoe UI', sans-serif;
 }
 
 body {
-  
   background: url(../images/artboard.png) center center/cover no-repeat;
   min-height: 100vh;
   display: flex;
@@ -15,7 +14,18 @@ body {
   padding: 20px;
   cursor: url('../images/wand-right.png'), auto;
   position: relative;
-  /* Ensure positioning context for pseudo-element */
+}
+@font-face {
+  font-family: 'Ringbearer';
+  src: url('../fonts/RingbearerMedium-51mgZ.woff2') format('woff2'),
+       url('../fonts/RingbearerMedium-51mgZ.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+h1 {
+  font-family: 'Ringbearer', serif;
 }
 
 /* Column Image Background */
@@ -423,6 +433,7 @@ select option {
   mix-blend-mode: screen;
   transition: width 0.1s, height 0.1s;
 }
+
 /* LEADERBOARD STYLES */
 #leaderboardSection {
   margin-top: 30px;
@@ -469,7 +480,151 @@ select option {
 }
 
 /* Rank Colors */
-#leaderboardTable tbody tr:nth-child(1) td:first-child { color: #ffd700; font-weight: bold; } /* Gold */
-#leaderboardTable tbody tr:nth-child(2) td:first-child { color: #c0c0c0; font-weight: bold; } /* Silver */
-#leaderboardTable tbody tr:nth-child(3) td:first-child { color: #cd7f32; font-weight: bold; } /* Bronze */
+#leaderboardTable tbody tr:nth-child(1) td:first-child {
+  color: #ffd700;
+  font-weight: bold;
+}
 
+/* Gold */
+#leaderboardTable tbody tr:nth-child(2) td:first-child {
+  color: #c0c0c0;
+  font-weight: bold;
+}
+
+/* Silver */
+#leaderboardTable tbody tr:nth-child(3) td:first-child {
+  color: #cd7f32;
+  font-weight: bold;
+}
+
+/* Bronze */
+
+
+/* Rank Icons */
+/* Rank Icons */
+.rank-icon-gold {
+  width: 45px;
+  height: auto;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  vertical-align: middle;
+}
+
+.rank-icon-silver {
+  width: 40px;
+  height: auto;
+  filter: drop-shadow(0 0 8px rgba(192, 192, 192, 0.6));
+  vertical-align: middle;
+}
+
+.rank-icon-bronze {
+  width: 38px;
+  height: auto;
+  filter: drop-shadow(0 0 8px rgba(205, 127, 50, 0.6));
+  vertical-align: middle;
+}
+
+/* Question Mark Animation */
+.question-icon {
+  width: 35px;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 10px;
+  animation: floatQuestion 2s ease-in-out infinite;
+}
+
+@keyframes floatQuestion {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(5deg);
+  }
+}
+
+/* Flying Ball (Golden Snitch) Animation */
+#flyingBall {
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 60px;
+  height: auto;
+  z-index: 10;
+  animation: flyAround 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes flyAround {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-20px, -15px) rotate(-10deg);
+  }
+
+  50% {
+    transform: translate(-10px, 10px) rotate(5deg);
+  }
+
+  75% {
+    transform: translate(10px, -20px) rotate(-5deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+/* Flying Candles */
+#candleContainer {
+  position: absolute;
+  top: -60px;
+  left: -20px;
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+  pointer-events: none;
+  animation: floatCandles 6s ease-in-out infinite alternate;
+}
+
+.candle-icon {
+  width: 40px;
+  height: auto;
+  filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
+  animation: flickerGlow 1.5s infinite alternate;
+}
+
+.candle-icon:nth-child(2) {
+  animation-delay: 0.5s;
+  margin-top: 20px;
+}
+
+.candle-icon:nth-child(3) {
+  animation-delay: 0.2s;
+  margin-top: -10px;
+}
+
+@keyframes floatCandles {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  100% {
+    transform: translateY(-15px) translateX(10px);
+  }
+}
+
+@keyframes flickerGlow {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
+    opacity: 0.9;
+  }
+
+  100% {
+    filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.9));
+    opacity: 1;
+  }
+}
