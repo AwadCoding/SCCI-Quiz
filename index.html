@@ -1,112 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="Test your knowledge with the SCCI Weekly Knowledge Check. Assess your understanding of the latest session topics.">
-  <meta name="keywords" content="SCCI, Quiz, Student Activity, Knowledge Check, Weekly Assessment">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="SCCI Team">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="Test your knowledge with the SCCI Weekly Knowledge Check. Assess your understanding of the latest session topics."
+    />
+    <meta
+      name="keywords"
+      content="SCCI, Quiz, Student Activity, Knowledge Check, Weekly Assessment"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="SCCI Team" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://awadcoding.github.io/SCCI-Quiz/"> <!-- Placeholder URL -->
-  <meta property="og:title" content="SCCI Weekly Knowledge Check">
-  <meta property="og:description" content="Assess your understanding of the lasted session's topics with our interactive quiz.">
-  <meta property="og:image" content="assets/images/scci-preview.png">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://awadcoding.github.io/SCCI-Quiz/" />
+    <!-- Placeholder URL -->
+    <meta property="og:title" content="SCCI Weekly Knowledge Check" />
+    <meta
+      property="og:description"
+      content="Assess your understanding of the lasted session's topics with our interactive quiz."
+    />
+    <meta property="og:image" content="assets/images/scci-preview.png" />
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://awadcoding.github.io/SCCI-Quiz/">
-  <meta property="twitter:title" content="SCCI Weekly Knowledge Check">
-  <meta property="twitter:description" content="Assess your understanding of the lasted session's topics with our interactive quiz.">
-  <meta property="twitter:image" content="assets/images/scci-preview.png">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://awadcoding.github.io/SCCI-Quiz/"
+    />
+    <meta property="twitter:title" content="SCCI Weekly Knowledge Check" />
+    <meta
+      property="twitter:description"
+      content="Assess your understanding of the lasted session's topics with our interactive quiz."
+    />
+    <meta property="twitter:image" content="assets/images/scci-preview.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" href="assets/images/logo/logo.png">
-  <title>SCCI Weekly Knowledge Check</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/logo/logo.png" />
+    <title>SCCI Weekly Knowledge Check</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weekly Knowledge Check</h1>
+      <p class="subtitle">
+        Assess your understanding of the last session's topics
+      </p>
 
-<div class="container">
+      <!-- START SCREEN -->
+      <div id="startScreen">
+        <div class="form-group">
+          <label for="workshopSelect">Select Workshop:</label>
+          <select
+            id="workshopSelect"
+            style="
+              width: 100%;
+              padding: 10px;
+              margin-bottom: 15px;
+              border-radius: 5px;
+              background: rgba(255, 255, 255, 0.1);
+              color: #fff;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+            "
+          >
+            <option value="TechSolve">TechSolve</option>
+            <option value="Devology">Devology</option>
+            <option value="Marketneur">Marketneur</option>
+            <option value="Data Station">Data Station</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="username">Enter your name to start:</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="Your Name..."
+            autocomplete="off"
+          />
+        </div>
+        <button id="startBtn" class="submitBtn">Start Quiz</button>
+      </div>
 
-  <h1>Weekly Knowledge Check</h1>
-  <p class="subtitle">Assess your understanding of the last session's topics</p>
+      <!-- GAME SCREEN -->
+      <div id="gameScreen" class="hidden">
+        <div id="progress">
+          <div id="progressBar"></div>
+        </div>
 
-  <!-- START SCREEN -->
-  <div id="startScreen">
-    <div class="form-group">
-      <label for="username">Enter your name to start:</label>
-      <input type="text" id="username" placeholder="Your Name..." autocomplete="off">
-    </div>
-    <button id="startBtn" class="submitBtn">Start Quiz</button>
-  </div>
+        <div id="timerBox">
+          <div class="timer-container">
+            <svg class="timer-ring" width="80" height="80">
+              <circle
+                class="timer-ring-circle"
+                stroke="rgba(255,255,255,0.1)"
+                stroke-width="4"
+                fill="transparent"
+                r="36"
+                cx="40"
+                cy="40"
+              />
+              <circle
+                id="timerProgress"
+                class="timer-ring-circle-progress"
+                stroke="#c41e3a"
+                stroke-width="4"
+                fill="transparent"
+                r="36"
+                cx="40"
+                cy="40"
+              />
+            </svg>
+            <span id="timerText">30</span>
+          </div>
+        </div>
 
-  <!-- GAME SCREEN -->
-  <div id="gameScreen" class="hidden">
-    <div id="progress">
-      <div id="progressBar"></div>
-    </div>
+        <div style="position: relative">
+          <!-- Candles on the Left -->
+          <div id="candleContainer">
+            <img
+              src="assets/images/icons/candle.png"
+              class="candle-icon"
+              alt="Candle"
+            />
+            <img
+              src="assets/images/icons/candle.png"
+              class="candle-icon"
+              alt="Candle"
+            />
+            <img
+              src="assets/images/icons/candle.png"
+              class="candle-icon"
+              alt="Candle"
+            />
+          </div>
 
-    <div id="timerBox">
-      <div class="timer-container">
-        <svg class="timer-ring" width="80" height="80">
-          <circle class="timer-ring-circle" stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
-          <circle id="timerProgress" class="timer-ring-circle-progress" stroke="#c41e3a" stroke-width="4" fill="transparent" r="36" cx="40" cy="40"/>
-        </svg>
-        <span id="timerText">30</span>
+          <img
+            src="assets/images/icons/golden.png"
+            id="flyingBall"
+            alt="Golden Snitch"
+          />
+          <div id="quizBox"></div>
+        </div>
+
+        <button id="nextBtn" class="submitBtn hidden">Next Question</button>
+      </div>
+
+      <!-- RESULTS SCREEN -->
+      <div id="resultBox" class="hidden"></div>
+
+      <!-- LEADERBOARD SECTION (Hidden by default, shown in results) -->
+      <div id="leaderboardSection" class="hidden">
+        <h3>🏆 Top Players 🏆</h3>
+        <div class="leaderboard-table-container">
+          <table id="leaderboardTable">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+              <!-- Rows will be populated by JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <div style="position: relative;">
-        <!-- Candles on the Left -->
-        <div id="candleContainer">
-          <img src="assets/images/icons/candle.png" class="candle-icon" alt="Candle">
-          <img src="assets/images/icons/candle.png" class="candle-icon" alt="Candle">
-          <img src="assets/images/icons/candle.png" class="candle-icon" alt="Candle">
-        </div>
-        
-        <img src="assets/images/icons/golden.png" id="flyingBall" alt="Golden Snitch">
-        <div id="quizBox"></div>
-    </div>
+    <div id="spotlight"></div>
 
-    <button id="nextBtn" class="submitBtn hidden">Next Question</button>
-  </div>
-
-  <!-- RESULTS SCREEN -->
-  <div id="resultBox" class="hidden"></div>
-  
-  <!-- LEADERBOARD SECTION (Hidden by default, shown in results) -->
-  <div id="leaderboardSection" class="hidden">
-    <h3>🏆 Top Players 🏆</h3>
-    <div class="leaderboard-table-container">
-      <table id="leaderboardTable">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Score</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboardBody">
-          <!-- Rows will be populated by JS -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div style="margin-top: 30px; text-align: center;">
-    <a href="admin.html" class="admin-link">Admin Panel ⚙️</a>
-  </div>
-
-</div>
-
-<div id="spotlight"></div>
-
-<script type="module" src="js/main.js?v=2"></script>
-
-</body>
+    <script type="module" src="js/main.js?v=2"></script>
+  </body>
 </html>

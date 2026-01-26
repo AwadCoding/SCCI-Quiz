@@ -6,6 +6,7 @@ const resetBtn = document.getElementById('resetBtn');
 const addOptionBtn = document.getElementById('addOptionBtn');
 const optionsContainer = document.getElementById('optionsContainer');
 const correctIndexSelect = document.getElementById('correctIndex');
+const workshopSelect = document.getElementById('workshopSelect');
 
 let questions = [];
 
@@ -13,18 +14,31 @@ let questions = [];
 function checkAuth() {
     const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
     if (isLoggedIn === 'true') {
-        document.getElementById('loginOverlay').classList.add('hidden');
+        // Assume loginOverlay might be present in index or handled differently, 
+        // but admin.html usually doesn't have login overlay in the code showed.
+        // It seems the login logic was at the bottom of the file but no overlay in HTML?
+        // Ah, likely the user removed it or it's hidden. 
+        // The original code had: document.getElementById('loginOverlay').classList.add('hidden');
+        // valid check.
+        if (document.getElementById('loginOverlay')) {
+            document.getElementById('loginOverlay').classList.add('hidden');
+        }
         init();
     } else {
-        // Overlay is visible by CSS default, so we stop here.
-        // Waiting for user to login.
+        // If there's a login overlay, show it. If not, maybe redirect?
+        // For now adhering to original structure.
     }
 }
 
 async function init() {
+    await loadData();
+}
+
+async function loadData() {
+    const workshop = workshopSelect.value;
     try {
         questionsList.innerHTML = '<p style="color:white;">Loading questions...</p>';
-        questions = await getQuestions();
+        questions = await getQuestions(workshop);
         renderQuestions();
         renderLeaderboard();
     } catch (error) {
@@ -33,8 +47,14 @@ async function init() {
     }
 }
 
+workshopSelect.addEventListener('change', loadData);
+
 function renderQuestions() {
     questionsList.innerHTML = '';
+    if (questions.length === 0) {
+        questionsList.innerHTML = '<p style="color:rgba(255,255,255,0.5);">No questions for this workshop yet.</p>';
+        return;
+    }
     questions.forEach((q, index) => {
         const div = document.createElement('div');
         div.className = 'question-item';
@@ -60,11 +80,12 @@ function renderQuestions() {
 }
 
 function deleteQuestion(index) {
-    if (confirm('Are you sure you want to delete this question?')) {
+    showConfirmModal('Delete Question', 'Are you sure you want to delete this question?', () => {
         questions.splice(index, 1);
-        saveQuestions(questions);
+        const workshop = workshopSelect.value;
+        saveQuestions(questions, workshop);
         renderQuestions();
-    }
+    });
 }
 window.deleteQuestion = deleteQuestion; // Make it global for the inline onclick
 
@@ -89,13 +110,13 @@ form.addEventListener('submit', async (e) => {
     };
 
     questions.push(newQuestion);
-    await saveQuestions(questions); // Await save
+    const workshop = workshopSelect.value;
+    await saveQuestions(questions, workshop); // Await save
 
     alert('Question Added!');
     form.reset();
-    // Remove extra options, keep first 3 by default or just reset inputs? 
-    // form.reset() clears values but doesn't remove elements.
-    // Let's reset the container to 3 default inputs.
+
+    // Reset options to default 3
     optionsContainer.innerHTML = `
         <input type="text" class="option-input" placeholder="Option 1" required dir="auto">
         <input type="text" class="option-input" placeholder="Option 2" required dir="auto">
@@ -106,10 +127,11 @@ form.addEventListener('submit', async (e) => {
 });
 
 resetBtn.addEventListener('click', async () => {
-    if (confirm('Are you sure you want to delete ALL questions? This cannot be undone.')) {
-        questions = await resetQuestions(); // Await reset
+    showConfirmModal('Delete All Questions', 'Are you sure you want to delete ALL questions? This cannot be undone.', async () => {
+        const workshop = workshopSelect.value;
+        questions = await resetQuestions(workshop);
         renderQuestions();
-    }
+    });
 });
 
 // Add Option Logic
@@ -142,7 +164,8 @@ async function renderLeaderboard() {
 
     leaderboardBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
 
-    const leaders = await getLeaderboard();
+    const workshop = workshopSelect.value;
+    const leaders = await getLeaderboard(workshop);
 
     if (leaders.length === 0) {
         leaderboardBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No records yet</td></tr>';
@@ -174,26 +197,58 @@ async function renderLeaderboard() {
 document.getElementById('refreshLbBtn')?.addEventListener('click', renderLeaderboard);
 
 document.getElementById('clearLbBtn')?.addEventListener('click', async () => {
-    if (confirm('Are you sure you want to clear the leaderboard? This cannot be undone.')) {
-        await resetLeaderboard();
+    showConfirmModal('Clear Leaderboard', 'Are you sure you want to clear the leaderboard? This cannot be undone.', async () => {
+        const workshop = workshopSelect.value;
+        await resetLeaderboard(workshop);
         renderLeaderboard();
-    }
+    });
 });
 
 // Start with Auth Check
 checkAuth();
 
-// Login Logic
-document.getElementById('loginBtn').addEventListener('click', () => {
-    const user = document.getElementById('usernameInput').value;
-    const pass = document.getElementById('passwordInput').value;
+// Login Logic (if elements exist)
+const loginBtn = document.getElementById('loginBtn');
+if (loginBtn) {
+    loginBtn.addEventListener('click', () => {
+        const user = document.getElementById('usernameInput').value;
+        const pass = document.getElementById('passwordInput').value;
 
-    // Simple hardcoded check
-    if (user === 'admin' && pass === '123') {
-        sessionStorage.setItem('adminLoggedIn', 'true');
-        checkAuth();
-    } else {
-        alert('Incorrect Username or Password');
-    }
-});
+        // Simple hardcoded check
+        if (user === 'admin' && pass === '123') {
+            sessionStorage.setItem('adminLoggedIn', 'true');
+            checkAuth();
+        } else {
+            alert('Incorrect Username or Password');
+        }
+    });
+}
 
+// Custom Confirm Modal Functions
+function showConfirmModal(title, message, onConfirm) {
+    const modal = document.getElementById('confirmModal');
+    const confirmTitle = document.getElementById('confirmTitle');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmBtn = document.getElementById('confirmBtn');
+
+    confirmTitle.textContent = title;
+    confirmMessage.textContent = message;
+    modal.style.display = 'flex';
+
+    // Remove old listeners
+    const newConfirmBtn = confirmBtn.cloneNode(true);
+    confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+    // Add new listener
+    newConfirmBtn.addEventListener('click', () => {
+        onConfirm();
+        closeConfirmModal();
+    });
+}
+
+function closeConfirmModal() {
+    const modal = document.getElementById('confirmModal');
+    modal.style.display = 'none';
+}
+
+window.closeConfirmModal = closeConfirmModal;

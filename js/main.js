@@ -4,6 +4,7 @@ let questions = [];
 let index = 0;
 let score = 0;
 let playerName = "";
+let selectedWorkshop = "";
 let accumulatedTime = 0; // Total time taken in seconds
 
 const quizBox = document.getElementById("quizBox");
@@ -19,6 +20,8 @@ const usernameInput = document.getElementById("username");
 const startBtn = document.getElementById("startBtn");
 const leaderboardSection = document.getElementById("leaderboardSection");
 const leaderboardBody = document.getElementById("leaderboardBody");
+const workshopSelect = document.getElementById("workshopSelect");
+
 
 let timer;
 const TIME_LIMIT = 30;
@@ -28,11 +31,16 @@ const FULL_DASH_ARRAY = 226; // 2 * PI * 36
 // START BUTTON HANDLER
 startBtn.addEventListener("click", () => {
   const name = usernameInput.value.trim();
+  const workshop = workshopSelect.value;
+
   if (name === "") {
     alert("Please enter your name!");
     return;
   }
+
   playerName = name;
+  selectedWorkshop = workshop;
+
   startScreen.classList.add("hidden");
   gameScreen.classList.remove("hidden");
   init();
@@ -42,11 +50,11 @@ async function init() {
   try {
     // Show loading state if needed, or just wait
     quizBox.innerHTML = '<p style="color:white; text-align:center;">Loading questions...</p>';
-    questions = await getQuestions();
+    questions = await getQuestions(selectedWorkshop);
 
     // Check if we actually got questions
     if (!questions || questions.length === 0) {
-      quizBox.innerHTML = '<p style="color:white; text-align:center;">No questions found.</p>';
+      quizBox.innerHTML = '<p style="color:white; text-align:center;">No questions found for ' + selectedWorkshop + '.</p>';
       return;
     }
 
@@ -183,10 +191,10 @@ async function finishGame() {
   `;
 
   // Save Score
-  await saveScore(playerName, score, accumulatedTime);
+  await saveScore(playerName, score, accumulatedTime, selectedWorkshop);
 
   // Fetch Leaderboard
-  const leaders = await getLeaderboard();
+  const leaders = await getLeaderboard(selectedWorkshop);
 
   // Update Leaderboard UI
   leaderboardBody.innerHTML = leaders.map((entry, index) => {

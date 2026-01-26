@@ -1,106 +1,195 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SCCI Quiz Admin</title>
-  
-  <meta name="description" content="Admin Panel for SCCI Weekly Knowledge Check. Manage questions and quiz settings.">
-  <meta name="robots" content="noindex, nofollow"> <!-- Prevent indexing admin page -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCCI Quiz Admin</title>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="SCCI Quiz Admin Panel">
-  <meta property="og:description" content="Manage questions for the weekly assessment.">
-  <meta property="og:image" content="assets/images/scci-preview.png">
+    <meta
+      name="description"
+      content="Admin Panel for SCCI Weekly Knowledge Check. Manage questions and quiz settings."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <!-- Prevent indexing admin page -->
 
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" href="assets/images/logo/logo.png">
-</head>
-<body>
+    <!-- Open Graph -->
+    <meta property="og:title" content="SCCI Quiz Admin Panel" />
+    <meta
+      property="og:description"
+      content="Manage questions for the weekly assessment."
+    />
+    <meta property="og:image" content="assets/images/scci-preview.png" />
 
-<div class="container admin-container">
-  <h1>Admin Panel</h1>
-  <p class="subtitle">Add & Manage Questions</p>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" href="assets/images/logo/logo.png" />
+  </head>
+  <body>
+    <div class="container admin-container">
+      <h1>Admin Panel</h1>
+      <p class="subtitle">Add & Manage Questions</p>
 
-  <form id="questionForm">
-    <div class="form-group">
-      <label for="questionText">Question Text</label>
-      <input type="text" id="questionText" placeholder="Enter the question here..." required dir="auto">
-    </div>
-
-    <div class="form-group">
-      <label>Options</label>
-      <div id="optionsContainer">
-        <input type="text" class="option-input" placeholder="Option 1" required dir="auto">
-        <input type="text" class="option-input" placeholder="Option 2" required dir="auto">
-        <input type="text" class="option-input" placeholder="Option 3" required dir="auto">
+      <div style="margin-top: 30px; text-align: center">
+        <a href="index.html" class="admin-link">Back to Quiz &rarr;</a>
       </div>
-      <button type="button" id="addOptionBtn" class="secondary-btn">+ Add Option</button>
+
+      <div class="form-group" style="margin-bottom: 20px">
+        <label for="workshopSelect">Select Workshop</label>
+        <select
+          id="workshopSelect"
+          class="workshop-select"
+          style="
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          "
+        >
+          <option value="TechSolve">TechSolve</option>
+          <option value="Devology">Devology</option>
+          <option value="Marketneur">Marketneur</option>
+          <option value="Data Station">Data Station</option>
+        </select>
+      </div>
+
+      <form id="questionForm">
+        <div class="form-group">
+          <label for="questionText">Question Text</label>
+          <input
+            type="text"
+            id="questionText"
+            placeholder="Enter the question here..."
+            required
+            dir="auto"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Options</label>
+          <div id="optionsContainer">
+            <input
+              type="text"
+              class="option-input"
+              placeholder="Option 1"
+              required
+              dir="auto"
+            />
+            <input
+              type="text"
+              class="option-input"
+              placeholder="Option 2"
+              required
+              dir="auto"
+            />
+            <input
+              type="text"
+              class="option-input"
+              placeholder="Option 3"
+              required
+              dir="auto"
+            />
+          </div>
+          <button type="button" id="addOptionBtn" class="secondary-btn">
+            + Add Option
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="correctIndex">Correct Answer (Index 0-2)</label>
+          <select id="correctIndex" required>
+            <option value="0">Option 1</option>
+            <option value="1">Option 2</option>
+            <option value="2">Option 3</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submitBtn">Add Question</button>
+      </form>
+
+      <hr style="margin: 30px 0; border-color: rgba(255, 255, 255, 0.1)" />
+
+      <h2>Existing Questions</h2>
+      <div id="questionsList"></div>
+
+      <hr style="margin: 30px 0; border-color: rgba(255, 255, 255, 0.1)" />
+
+      <h2>🏆 Leaderboard</h2>
+      <div>
+        <button
+          id="refreshLbBtn"
+          class="secondary-btn"
+          style="margin-bottom: 15px; font-size: 12px; margin-right: 10px"
+        >
+          Refresh
+        </button>
+        <button
+          id="clearLbBtn"
+          class="secondary-btn warning-btn"
+          style="margin-bottom: 15px; font-size: 12px"
+        >
+          Clear Leaderboard
+        </button>
+      </div>
+
+      <div class="leaderboard-table-container">
+        <table id="leaderboardTable" style="margin-bottom: 0">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Score</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardBody">
+            <!-- Rows will be populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <hr style="margin: 30px 0; border-color: rgba(255, 255, 255, 0.1)" />
+
+      <div style="margin-top: 20px; text-align: center">
+        <button id="resetBtn" class="secondary-btn warning-btn">
+          Delete All Questions
+        </button>
+        <br /><br />
+        <a href="index.html" style="color: #fff; text-decoration: none"
+          >Go to Quiz &rarr;</a
+        >
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="correctIndex">Correct Answer (Index 0-2)</label>
-      <select id="correctIndex" required>
-        <option value="0">Option 1</option>
-        <option value="1">Option 2</option>
-        <option value="2">Option 3</option>
-      </select>
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay" style="display: none">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeConfirmModal()">
+          &times;
+        </button>
+        <h3 id="confirmTitle" style="margin-top: 0; color: #fff">
+          Confirm Action
+        </h3>
+        <p
+          id="confirmMessage"
+          style="color: rgba(255, 255, 255, 0.8); margin: 20px 0"
+        >
+          Are you sure?
+        </p>
+        <div class="modal-buttons">
+          <button
+            class="modal-btn modal-btn-cancel"
+            onclick="closeConfirmModal()"
+          >
+            Cancel
+          </button>
+          <button class="modal-btn modal-btn-confirm" id="confirmBtn">
+            Confirm
+          </button>
+        </div>
+      </div>
     </div>
 
-    <button type="submit" class="submitBtn">Add Question</button>
-  </form>
-
-  <hr style="margin: 30px 0; border-color: rgba(255,255,255,0.1);">
-
-  <h2>Existing Questions</h2>
-  <div id="questionsList"></div>
-  
-  <hr style="margin: 30px 0; border-color: rgba(255,255,255,0.1);">
-
-  <h2>🏆 Leaderboard</h2>
-  <div>
-    <button id="refreshLbBtn" class="secondary-btn" style="margin-bottom: 15px; font-size: 12px; margin-right: 10px;">Refresh</button>
-    <button id="clearLbBtn" class="secondary-btn warning-btn" style="margin-bottom: 15px; font-size: 12px;">Clear Leaderboard</button>
-  </div>
-  
-  <div class="leaderboard-table-container">
-    <table id="leaderboardTable" style="margin-bottom: 0;">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Name</th>
-          <th>Score</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="leaderboardBody">
-        <!-- Rows will be populated by JS -->
-      </tbody>
-    </table>
-  </div>
-
-  <hr style="margin: 30px 0; border-color: rgba(255,255,255,0.1);">
-
-  <div style="margin-top: 20px; text-align: center;">
-      <button id="resetBtn" class="secondary-btn warning-btn">Delete All Questions</button>
-      <br><br>
-      <a href="index.html" style="color: #fff; text-decoration: none;">Go to Quiz &rarr;</a>
-  </div>
-
-</div>
-
-<!-- Login Overlay -->
-<div id="loginOverlay" class="login-overlay">
-  <div class="login-box">
-    <h2>Admin Login</h2>
-    <input type="text" id="usernameInput" placeholder="Username" style="margin-bottom: 10px;">
-    <input type="password" id="passwordInput" placeholder="Password" style="margin-bottom: 10px;">
-    <button id="loginBtn" class="submitBtn">Login</button>
-  </div>
-</div>
-
-<script type="module" src="js/admin.js?v=2"></script>
-
-</body>
+    <script type="module" src="js/admin.js?v=2"></script>
+  </body>
 </html>
