@@ -12,7 +12,6 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    cursor: url('../images/wand-right.png'), auto;
     position: relative;
 }
 
@@ -49,22 +48,6 @@ body::before {
         opacity: 0.15;
         right: -10vw;
     }
-}
-
-body:active,
-button:active,
-a:active,
-.option:active,
-input:active,
-select:active,
-.submitBtn:active,
-button:hover,
-a:hover,
-.option:hover,
-input:hover,
-select:hover,
-.submitBtn:hover {
-    cursor: url('../images/wand.png'), pointer;
 }
 
 .container {
